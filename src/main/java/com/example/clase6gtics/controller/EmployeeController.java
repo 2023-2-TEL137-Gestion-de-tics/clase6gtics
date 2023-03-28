@@ -20,8 +20,11 @@ import java.util.Optional;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @Autowired
-    EmployeeRepository employeeRepository;
+    final EmployeeRepository employeeRepository;
+
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @GetMapping(value = {"", "/", "list"})
     public String listarEmpleados(Model model) {
@@ -84,7 +87,7 @@ public class EmployeeController {
         if (optional.isPresent()) {
             employeeRepository.deleteById(id);
         }
-        attr.addFlashAttribute("msg","usuario borrado exitosamente");
+        attr.addFlashAttribute("msg", "usuario borrado exitosamente");
         return "redirect:/employee";
     }
 }

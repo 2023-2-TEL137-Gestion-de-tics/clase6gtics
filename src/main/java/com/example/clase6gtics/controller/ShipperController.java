@@ -18,8 +18,11 @@ import java.util.Optional;
 @RequestMapping("/shipper")
 public class ShipperController {
 
-    @Autowired
-    ShipperRepository shipperRepository;
+    final ShipperRepository shipperRepository;
+
+    public ShipperController(ShipperRepository shipperRepository) {
+        this.shipperRepository = shipperRepository;
+    }
 
     @GetMapping(value = {"/list", ""})
     public String listarTransportistas(Model model) {

@@ -19,13 +19,15 @@ import java.util.Optional;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    ProductRepository productRepository;
+    final ProductRepository productRepository;
+    final CategoryRepository categoryRepository;
+    final SupplierRepository supplierRepository;
 
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    SupplierRepository supplierRepository;
+    public ProductController(ProductRepository productRepository, CategoryRepository categoryRepository, SupplierRepository supplierRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+        this.supplierRepository = supplierRepository;
+    }
 
     @GetMapping(value = {"", "/"})
     public String listaProductos(Model model) {
@@ -36,7 +38,7 @@ public class ProductController {
     @GetMapping("/new")
     public String nuevoProductoFrm(Model model) {
         model.addAttribute("listaCategorias", categoryRepository.findAll());
-        model.addAttribute("listaProveedores",supplierRepository.findAll());
+        model.addAttribute("listaProveedores", supplierRepository.findAll());
         return "product/newFrm";
     }
 
@@ -52,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String editarTransportista(Model model,@RequestParam("id") int id) {
+    public String editarTransportista(Model model, @RequestParam("id") int id) {
 
         Optional<Product> optProduct = productRepository.findById(id);
 
@@ -60,7 +62,7 @@ public class ProductController {
             Product product = optProduct.get();
             model.addAttribute("product", product);
             model.addAttribute("listaCategorias", categoryRepository.findAll());
-            model.addAttribute("listaProveedores",supplierRepository.findAll());
+            model.addAttribute("listaProveedores", supplierRepository.findAll());
             return "product/editFrm";
         } else {
             return "redirect:/product";
@@ -76,7 +78,7 @@ public class ProductController {
 
         if (optProduct.isPresent()) {
             productRepository.deleteById(id);
-            attr.addFlashAttribute("msg","Producto borrado exitosamente");
+            attr.addFlashAttribute("msg", "Producto borrado exitosamente");
         }
         return "redirect:/product";
 
