@@ -6,8 +6,11 @@
             <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Product')}"></nav>
             <div class="row mb-4">
                 <div class="col-md-6 offset-md-3">
-                    <h2>Editar Producto</h2>
+                    <h2 th:text="${product.id==0? 'Nuevo Producto':'Editar Producto'}">Editar Producto</h2>
                     <hr/>
+                    <div class="alert alert-danger" role="alert" th:if="${msg != null}" th:text="${msg}">
+                        A simple success alert—check it out!
+                    </div>
                     <form method="post" th:action="@{'/product/save'}" th:object="${product}">
                         <input th:field="*{id}" type="hidden"/>
                         <div class="mb-3">
@@ -16,18 +19,16 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Proveedor</label>
-                            <select class="form-select" name="supplier">
+                            <select class="form-select" name="supplier" th:field="*{supplier}">
                                 <option th:each="supplier : ${listaProveedores}" th:value="${supplier.id}"
-                                        th:text="${supplier.companyname}"
-                                        th:selected="${supplier.id == product.supplier.id}"></option>
+                                        th:text="${supplier.companyname}"></option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Categoría</label>
-                            <select class="form-select" name="category">
+                            <select class="form-select" name="category" th:field="*{category}">
                                 <option th:each="categoria : ${listaCategorias}" th:value="${categoria.id}"
-                                        th:text="${categoria.categoryname}"
-                                        th:selected="${categoria.id == product.category.id}"></option>
+                                        th:text="${categoria.categoryname}"></option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -56,7 +57,8 @@
                             <label class="form-check-label">¿Descontinuado?</label>
                         </div>
                         <a th:href="@{'/product'}" class="btn btn-danger">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <button type="submit" class="btn btn-primary"
+                                th:text="${product.id==0? 'Guardar':'Actualizar'}">Actualizar</button>
                     </form>
                 </div>
             </div>
