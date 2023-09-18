@@ -15,7 +15,12 @@
                         <input th:field="*{id}" type="hidden"/>
                         <div class="mb-3">
                             <label class="form-label">Nombre del Producto</label>
-                            <input th:field="*{productname}" type="text" class="form-control"/>
+                            <input th:field="*{productname}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('productname')?'is-invalid':''}"/>
+                            <div id="validationServer03Feedback" class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('productname')}" th:errors="*{productname}">
+                                Mensaje de error de productName
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Proveedor</label>
@@ -37,15 +42,27 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Precio unitario</label>
-                            <input th:field="*{unitprice}" type="text" class="form-control"/>
+                            <input th:field="*{unitprice}" type="text" th:class="${#fields.hasErrors('unitprice')?'form-control is-invalid':'form-control'}"/>
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('unitprice')}" th:errors="*{unitprice}">
+                                Mensaje de error de productName
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Unidades en stock</label>
-                            <input th:field="*{unitsinstock}" type="number" class="form-control"/>
+                            <input th:field="*{unitsinstock}" type="number" th:class="${#fields.hasErrors('unitsinstock')?'form-control is-invalid':'form-control'}"/>
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('unitsinstock')}" th:errors="*{unitsinstock}">
+                                Mensaje de error de productName
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Unidades ordenadas</label>
-                            <input th:field="*{unitsonorder}" type="number" class="form-control"/>
+                            <input th:field="*{unitsonorder}" type="number" th:class="${#fields.hasErrors('unitsonorder')?'form-control is-invalid':'form-control'}"/>
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('unitsonorder')}" th:errors="*{unitsonorder}">
+                                Mensaje de error de productName
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nivel de reorden</label>
@@ -58,7 +75,8 @@
                         </div>
                         <a th:href="@{'/product'}" class="btn btn-danger">Cancelar</a>
                         <button type="submit" class="btn btn-primary"
-                                th:text="${product.id==0? 'Guardar':'Actualizar'}">Actualizar</button>
+                                th:text="${product.id==0? 'Guardar':'Actualizar'}">Actualizar
+                        </button>
                     </form>
                 </div>
             </div>
